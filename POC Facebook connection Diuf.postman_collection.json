@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "3beb5702-d025-4eee-a903-3301fe036a80",
+		"name": "POC Facebook connection Diuf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1. Get the IDs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://graph.facebook.com/v14.0/me/accounts?access_token=EAAX5RTfdxnkBAHSZBVvZAzz9pnHpsmGns7Wx05jCK8mlbklKOnOwxFP7xP0mnfdOYRTOAgY5vaiNjrppZB7ZBEHvo7dmlIlPk4ZCuiIOe3bhrmuRMsmQ2PDLDM9e87bFxiHZCv6FfQzg1jI6OP36SiyZB5O74LxHGDz5SFX4YGjK2tRftgDiPRSm8AaG9fjRPZAbVm2NtUqwKAZDZD",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"facebook",
+						"com"
+					],
+					"path": [
+						"v14.0",
+						"me",
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "EAAX5RTfdxnkBAHSZBVvZAzz9pnHpsmGns7Wx05jCK8mlbklKOnOwxFP7xP0mnfdOYRTOAgY5vaiNjrppZB7ZBEHvo7dmlIlPk4ZCuiIOe3bhrmuRMsmQ2PDLDM9e87bFxiHZCv6FfQzg1jI6OP36SiyZB5O74LxHGDz5SFX4YGjK2tRftgDiPRSm8AaG9fjRPZAbVm2NtUqwKAZDZD"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 1.1. Get the PSID & Conversation ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://graph.facebook.com/v14.0/107425415408995/conversations?fields=participants&access_token=EAAX5RTfdxnkBAO1DrYyF6ZAQZBcYu9tsE3y2TZBGkV2yPHzp0zmSXmJmZAXhKHkywglslTuqoGejKz1rOrNqcPiEMfYAGPaZB2JxK67kGlIuPyMNDIOmrdPhKAXiKPzGB1XTPKEFEko1vQFmAeWLyFJbdKynLf4cWSnniFyiGPGVmntfKV1uAGfDIZBHYm5NfKiEzstAJwebRK1KYwQnzd",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"facebook",
+						"com"
+					],
+					"path": [
+						"v14.0",
+						"107425415408995",
+						"conversations"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "participants"
+						},
+						{
+							"key": "access_token",
+							"value": "EAAX5RTfdxnkBAO1DrYyF6ZAQZBcYu9tsE3y2TZBGkV2yPHzp0zmSXmJmZAXhKHkywglslTuqoGejKz1rOrNqcPiEMfYAGPaZB2JxK67kGlIuPyMNDIOmrdPhKAXiKPzGB1XTPKEFEko1vQFmAeWLyFJbdKynLf4cWSnniFyiGPGVmntfKV1uAGfDIZBHYm5NfKiEzstAJwebRK1KYwQnzd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2. Get the Message Text",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://graph.facebook.com/v14.0/t_6060267373990283?fields=messages{message}&access_token=EAAX5RTfdxnkBAO1DrYyF6ZAQZBcYu9tsE3y2TZBGkV2yPHzp0zmSXmJmZAXhKHkywglslTuqoGejKz1rOrNqcPiEMfYAGPaZB2JxK67kGlIuPyMNDIOmrdPhKAXiKPzGB1XTPKEFEko1vQFmAeWLyFJbdKynLf4cWSnniFyiGPGVmntfKV1uAGfDIZBHYm5NfKiEzstAJwebRK1KYwQnzd",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"facebook",
+						"com"
+					],
+					"path": [
+						"v14.0",
+						"t_6060267373990283"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "messages{message}"
+						},
+						{
+							"key": "access_token",
+							"value": "EAAX5RTfdxnkBAO1DrYyF6ZAQZBcYu9tsE3y2TZBGkV2yPHzp0zmSXmJmZAXhKHkywglslTuqoGejKz1rOrNqcPiEMfYAGPaZB2JxK67kGlIuPyMNDIOmrdPhKAXiKPzGB1XTPKEFEko1vQFmAeWLyFJbdKynLf4cWSnniFyiGPGVmntfKV1uAGfDIZBHYm5NfKiEzstAJwebRK1KYwQnzd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3. Send the Customer a Message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://graph.facebook.com/v14.0/107425415408995/messages?recipient={id:5377523422335540}&message={text:'Lanzando un mensaje desde postman, porque soy ingeniero'}&messaging_type=RESPONSE&access_token=EAAX5RTfdxnkBAO1DrYyF6ZAQZBcYu9tsE3y2TZBGkV2yPHzp0zmSXmJmZAXhKHkywglslTuqoGejKz1rOrNqcPiEMfYAGPaZB2JxK67kGlIuPyMNDIOmrdPhKAXiKPzGB1XTPKEFEko1vQFmAeWLyFJbdKynLf4cWSnniFyiGPGVmntfKV1uAGfDIZBHYm5NfKiEzstAJwebRK1KYwQnzd",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"facebook",
+						"com"
+					],
+					"path": [
+						"v14.0",
+						"107425415408995",
+						"messages"
+					],
+					"query": [
+						{
+							"key": "recipient",
+							"value": "{id:5377523422335540}"
+						},
+						{
+							"key": "message",
+							"value": "{text:'Lanzando un mensaje desde postman, porque soy ingeniero'}"
+						},
+						{
+							"key": "messaging_type",
+							"value": "RESPONSE"
+						},
+						{
+							"key": "access_token",
+							"value": "EAAX5RTfdxnkBAO1DrYyF6ZAQZBcYu9tsE3y2TZBGkV2yPHzp0zmSXmJmZAXhKHkywglslTuqoGejKz1rOrNqcPiEMfYAGPaZB2JxK67kGlIuPyMNDIOmrdPhKAXiKPzGB1XTPKEFEko1vQFmAeWLyFJbdKynLf4cWSnniFyiGPGVmntfKV1uAGfDIZBHYm5NfKiEzstAJwebRK1KYwQnzd"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
