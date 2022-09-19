@@ -1,0 +1,139 @@
+//normal
+
+public class Persona{
+	
+	Carro carro;
+
+	public Persona(){
+		this.carro=new Carro();
+	}
+
+}
+
+
+//Patron de diseño inyeccion de dependencias
+
+public class Persona{
+	
+	Carro carro;
+
+//	public Persona(){
+//		this.carro=new Carro();
+//	}
+
+	public Persona(Carro carro){
+		this.carro=carro;
+	}	
+
+}
+
+
+
+public class Persona{
+	
+	Carro carro;
+
+//	public Persona(){
+//		this.carro=new Carro();
+//	}
+
+	public Persona(){
+		
+	}	
+
+	public void setCarro(){
+		this.carro=carro;
+	}
+
+}
+
+
+//SPRING
+
+¿qué hace Spring?
+¿Qué hace Autowired?
+
+
+
+@RestController
+public class StoreController{
+
+	@Autowired
+	StoreService storeService;
+// storeService=ss1;
+	....
+
+}
+
+@Service
+public class StoreService{
+	
+	@Autowired
+	StoreRepository storeRepository;
+
+	//storeRepository=sr1
+...
+
+}
+
+@Repository
+public class StoreRepository{
+
+	.....
+}
+
+
+
+
+Spring Usa Inyección de Dependencias  ¿Cómo?
+
+
+@Component
+	- @Controller
+		-@RestController
+	- @Service
+	- @Repository 
+
+
+Contexto de Spring 
+----------------------------
+| new StoreService->ss1		|
+| new StoreController->sc1	|
+| new StoreRepository->sr1	|
+----------------------------
+
+Singleton
+Crear objetos una sola vez durante toda la vida del software
+
+
+
+Spring tiene 3 formas de INYECTAR DEPENDENCIAS
+
+- Por constructor
+- Por setter 
+- Por parametro 
+
+
+----- ESTRUCTURA DEL PROYECTO ------
+
+
+Controller 
+	- UserController -> es la api que MI front integra 
+	- FacebookController -> es la api que Facebook consume (webhook)
+	- WhatAppController -> es la api que WhatsApp consume (webhook)
+
+Service 
+    - UserService -> este quien orquesta todo, llama a la Clase encargada de conectarse con los proveedores (fb, wa), llama al encargado de base de datos, etc 
+
+
+Repository 
+	- Las clases encargadas de conectarse con la bbdd 
+
+
+Client 
+	- MessagesClient -> Interface que contiene los metodos de envio de mensajes 
+	- WhatAppClient -> clase con todos los metodos que utiliza whatsapp , implementa MessageClient 
+	- FacebookClient ->  clase con todos los metodos que utiliza Client, implementa MessageClient
+
+
+POC -> PROOF OF CONCEPT 

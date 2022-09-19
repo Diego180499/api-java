@@ -1,0 +1,18 @@
+spring:
+   datasource:
+      url:jdbc:mysql://localhost:3306/servicio
+      username:root
+      password:admin1234
+   jpa:
+      hibernate:
+         ddl-auto:update
+url:
+   enviar:
+      mensaje:https://graph.facebook.com/v14.0/111465918342937/messages?recipient={psidValue}&message={messageValue}&messaging_type={messagingType}&access_token={accessToken}
+   obtenerusuarios:https://graph.facebook.com/v14.0/111465918342937/conversations?fields={field}&access_token={pageToken}
+   obtenermensajes:https://graph.facebook.com/v14.0/{IdConversacion}?fields={field}&access_token={pageToken}
+token:
+   page:EAAX5RTfdxnkBAJ33wEaUclExoHUjLW3OcG6uNLX8lm2fRiHiNwOZCGWvYoqyPyaLjPkkvwO3DKIvnV3XjQIqnpQ2qPjVW5SLdtZBAiWgW5YU6ZAylXtF3tpw0pZBcD0nmZCPZCwge08kpEVc5A1UVEj3ZC7yKsaO92dNZCuZBPY7xo5e0sKfOrNnxdtnntd2FGXKisf9gcdsXmAZDZD
+   whatsapp:EAAInUz9K7mcBAGROP7Xl1cyrtSbuBSGLXZBW771R6rAFkmUWN1JKAnnC8kpdt1rVYPcQCYVC16NrcGGW7peXaNZAwYtMGB63UPrrjT5cB9xD7XCkm3FgYwCd8uZC0591JlKA6iHcEj8mrb9DRYvBpwp6ZAsxWQGrIxh4xq9xl1SpGwkGZBqpPQwwwaj46YnbHgNJFPL6G2gZDZD
+opcion:
+   envio:w

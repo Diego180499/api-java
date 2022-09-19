@@ -4,7 +4,6 @@ MI ACCES TOKEN :EAAX5RTfdxnkBALVnXj0ohZCCUdVWQUX5ldGV0AazbMhkbrTfSXcpqM14SE6qc5d
 page access token:EAAX5RTfdxnkBAEZCbIZAg147l2NkaFWvPSWhgnYEODNVD0zAFZCHvhvbFVbnk9Mzqfehyn2Qa4ztMvwUvoREwZCQ2NpZC9IyPwqnZCVGKSSZBmpmZADVhGecaE8Ijx4wSzrSpFo7rw2fPdP9iqrvxCX95JuhDh0wpGfMbVZCbBQ4iPRnFmKGotM17bnSlRnPr1fx4iB4eXcoXhl8qvecou1bk
 mi USER ID : 3214164765509751
 PSID de Diego Estrada : 7822135434526616
-PSID de Marlen : 5641974039199000
 PSID de Javi : 8168345283206167
 
 page id: 111465918342937
@@ -12,18 +11,10 @@ page id: 111465918342937
 conversation id de Diego Estrada: t_3214321795494048
 conversation id con Marlen: t_1704265353283647
 conversation id con Javi: t_6063099960373691
+-------------------------------------------------------------------------
 
------ obtener page access_token
-https://graph.facebook.com/v14.0/me/accounts?access_token=EAAX5RTfdxnkBALVnXj0ohZCCUdVWQUX5ldGV0AazbMhkbrTfSXcpqM14SE6qc5d9c2UoRZC1uZA9HrC5ueobUd515DMnu8zbY5CvN9mbgCDZBmktArNqRvXDqY7eABmb547Krxutc9hDq45dZBbU5PDo7HhNjJJ1XkkoCrIbPpKgKqaZCAHeFk08rW5G3u4uNXflvq9TuQ0AZDZD
+WHATSAPP API
 
-
----------obtener mensajes
-https://graph.facebook.com/v14.0/t_1704265353283647?fields=messages{message}&access_token=EAAX5RTfdxnkBAPBtzVKMJYZBA6PvjsMtViuNuA16IBAK7qbeZBbG3ZAvG55EQI3xl90Y8oreY46eqIleA8KMAKzyuaa4whe63yuV8v76lhCwvtZCvjuZB9rXDvOB7PZCUUbOPPgLVD7idfDIDXXbg7YNiuoJ5o9rflFZBtrptUz76rWxYcglx2jz5jtgu9CHFBqfhyrBeKa9QZDZD
-
-
---------- enviar mensajes
-https://graph.facebook.com/v14.0/111465918342937/messages?recipient={id:8168345283206167}&message={text:'Que pumas Javi, Desde postman :D'}&messaging_type=RESPONSE&access_token=EAAX5RTfdxnkBAB3KyAjr3BrYcElEG6SPzO7GOTlAMw4frssA1fVIJxHp6gZA270GE23COSFMF7ecox3262pSbZCqJrCryBbSnt5jyzkQhVzxU0S9VE5zYKFZBUtU9KZASAixHK8ZABgsNIdRmccsqkBmmBCXCMrZAWWXEteLqqv2bOu2DmSzRlBCkWjBt8CG61uTrpJgLgjFU13lvgbfCa
-
-
----------Para ver quien ha escrito a la página
-https://graph.facebook.com/v14.0/111465918342937/conversations?fields=participants&access_token=EAAX5RTfdxnkBAFKZAgO4XkvtvyeEhWs0vxqvsJ9x5Sk4PnlPCVlLdiTDQYOZCOq9qh3aW829vnDIld4fzV8ZBjMxTnibL82QBQcHQUJO9MGjnvwsLKAFC1WxZBpBvrItAHoFNhsortiaZAf6wbpA6KtzhW5QIPXVjhsiBv9OOHKJuWTaDyZCV5fxCwZBlZBZBFsP7tgeMZAoyVHnbAP2wokltR
+id mi celular: 356906116497528
+acces token whatsapp:
+EAAInUz9K7mcBADTRtHRdsuSo5qeQOK3LZCTREZC0BhZAF1Irkfim2jevw1C4jMV488anb9ZAGmKORBEFMYvzX06hZBqzTwQrKWwLXDCZClxoivtCWb8umu70mqTaJbWyo9b3nP101QpwvNMTfLZBqUHEQZCf9ifBkWtLKONdxduzLm7DlktDUuJwALWP3hs9RMyfVuDipkoLjQZDZD

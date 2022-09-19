@@ -5,6 +5,7 @@ import com.diego.api.dto.whatsapp_manager.message_default.RequestDTO;
 import com.diego.api.dto.whatsapp_manager.personalized_message.PersonalizedMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,18 +18,21 @@ public class WhatsappClient {
 
     Logger logger = LoggerFactory.getLogger(WhatsappClient.class);
 
+    @Value("${token.whatsapp}")
+    private String token;
+
+    @Value("${url.baseUrl}")
+    private String baseURL;
+
     RestTemplate restTemplate;
 
     // Identificador de acceso temporal
-    private String token = "EAAInUz9K7mcBANbTrFQfi8OH5HdYJ8RL56JQNJrMpfblFQ4LYv7A9ZBzBAf3hrI1ZCff7lZBCg7ZArZAnLPbO8DiYRHJ6sCZCffEQT15n5jlPAmezkOVx6kBkMIS83MTZCRgt6tJsVACxOZBZApaWgsEY2UU4q5XivQlc4K3G3MBEj3TzlOLPvqBxZCqZAY3g0zdxwGxR3OqAZCZBogZDZD";
-    private String baseURL = "https://graph.facebook.com/v14.0/105390802318250/messages";
-
     public WhatsappClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public ResponseEntity<ResponseDTO> sendDefaultMessage(RequestDTO request) {
-
+        logger.info("++++++++++++++++++++++El token de whatsapp es: " + token);
         String url = baseURL;
         String token = this.token;
         HttpHeaders headers = new HttpHeaders();
@@ -42,6 +46,7 @@ public class WhatsappClient {
     }
 
     public void sendMessage(PersonalizedMessageDTO mensaje) {
+        logger.info("++++++++++++++++++++++El token de whatsapp es: " + token);
         String url = baseURL;
         String token2 = this.token;
         HttpHeaders headers = new HttpHeaders();
