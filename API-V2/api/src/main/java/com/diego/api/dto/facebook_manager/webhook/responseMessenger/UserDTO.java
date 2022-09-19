@@ -3,21 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.diego.api.response;
-
-import com.diego.api.models.UsuarioModel;
+package com.diego.api.dto.facebook_manager.webhook.responseMessenger;
 
 /**
  *
  * @author HP
  */
-public class Response {
+public class UserDTO {
     
-    public static String mostrarDatosUsuario(UsuarioModel usuario){
-        
-        String info = "Nombre: ";
-        
-        return "";
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
     
     

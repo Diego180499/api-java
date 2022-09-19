@@ -1,21 +1,15 @@
 package com.diego.api.controllers;
 
-import com.diego.api.facebook_manager.DataDTO;
-import com.diego.api.facebook_manager.MessageDTO;
-import com.diego.api.facebook_manager.ResponseDTO;
+import com.diego.api.dto.user_manager.user_message_dto.RequestMessageDTO;
 import com.diego.api.models.UsuarioModel;
+import com.diego.api.service.MessageService;
 import com.diego.api.service.UserService;
-import com.fasterxml.jackson.core.JsonToken;
 import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,59 +19,40 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HP
  */
 @RestController
-@RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     UserService userService;
 
-    /*P E T I C I ON E S         G E T*/
+    MessageService messageService;
+
+    public UserController(UserService userService, MessageService messageService) {
+        this.userService = userService;
+        this.messageService = messageService;
+    }
+
+    /*P E T I C I ON E S 
+                                                                G E T
+     */
     @GetMapping()
     public ArrayList<UsuarioModel> getUsers() {
         return userService.getUsers();
     }
 
-    /**
-     * Ver los usuarios que han escrito a la página
-     *
-     * @return
-     */
-    @GetMapping("/seeUsers")
-    public ArrayList<UsuarioModel> allUsers() {
-
-        ResponseDTO response2 = userService.obtenerUsuarios();
-        ArrayList<UsuarioModel> usuarios = userService.agregarUsuarios(response2);
-
-        return usuarios;
-    }
-
-    /**
-     * Ver los usuarios que han escrito a la página
-     *
-     * @return
-     */
-    @GetMapping("/seeMessages")
-    public ResponseEntity<String> allMessages(@RequestParam(value = "idConversacion") String variable) {
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-    /**
-     * PETICIONES POST
-     */
+    //peticiones                                            POST
     @PostMapping()
     public UsuarioModel saveUser(@RequestBody UsuarioModel user) {
         return userService.saveUser(user);
     }
 
-    /**
-     * Enviar mensajes a un usuario
-     *
-     * @param mensaje
-     * @return
-     */
-    @PostMapping("/send")
-    public void sendMessage(@RequestBody MessageDTO mensaje) {
-        
-        userService.enviar2(mensaje);
+    // Peticion para enviar un mensaje
+    // Aquí, dependiendo de la configuración (app.properties) se enviará un mensaje al usuario,
+    // ya sea por WhatsApp o por Messenger.
+    @PostMapping("/enviarMensaje")
+    public void enviarMensaje(@RequestBody RequestMessageDTO mensaje) {
+        logger.info("*-*-*-ENTRANDO A /enviarMensaje");
+        userService.enviarMensaje(mensaje);
     }
+
 }

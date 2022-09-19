@@ -1,34 +1,37 @@
-
 package com.diego.api.models;
-
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "usuario")
 public class UsuarioModel {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Integer id;
-    
-    
+
     private String nombre;
     private String email;
     private String psid;
     private String idConversacion;
+    private Integer telefono;
 
     public UsuarioModel() {
-        
+
     }
 
     public UsuarioModel(String nombre, String email, String psid, Integer id, String idConversacion) {
         this.nombre = nombre;
         this.email = email;
         this.psid = psid;
-        this.id=id;
+        this.id = id;
         this.idConversacion = idConversacion;
+    }
+
+    public UsuarioModel(String nombre, Integer telefono) {
+        this.nombre = nombre;
+        this.telefono = telefono;
     }
     
     
@@ -81,12 +84,16 @@ public class UsuarioModel {
         this.idConversacion = idConversacion;
     }
 
+    public Integer getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(Integer telefono) {
+        this.telefono = telefono;
+    }
+
     @Override
     public String toString() {
         return "Nombre = " + nombre + ", PSID = " + psid;
     }
-    
-    
-    
-
 }

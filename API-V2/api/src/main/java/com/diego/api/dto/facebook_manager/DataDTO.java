@@ -1,5 +1,5 @@
 
-package com.diego.api.facebook_manager;
+package com.diego.api.dto.facebook_manager;
 
 
 public class DataDTO {

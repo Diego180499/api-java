@@ -1,21 +1,18 @@
 package com.diego.api.service;
 
-import com.diego.api.facebook_manager.MessageDTO;
-import com.diego.api.facebook_manager.ResponseDTO;
-import com.diego.api.facebook_manager.ResponseMessageDTO;
-import com.diego.api.facebook_manager.UserDTO;
+import com.diego.api.dto.facebook_manager.MessageDTO;
+import com.diego.api.dto.facebook_manager.ResponseDTO;
+import com.diego.api.dto.facebook_manager.UserDTO;
+import com.diego.api.dto.user_manager.user_message_dto.RequestMessageDTO;
+import com.diego.api.dto.whatsapp_manager.personalized_message.PersonalizedMessageDTO;
 import com.diego.api.models.UsuarioModel;
 import com.diego.api.repositories.UserRepository;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * El rol de esta clase es implementar la lógica de negocio relacionadas con la
@@ -25,31 +22,22 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author HP
  */
 @Service
-
 public class UserService {
 
-    private final String PAGE_TOKEN = "EAAX5RTfdxnkBAJlXKWlvz3YNFaPKnoTWWOToZAAXcOX9IB9N0ecUvZAl3gbzjrhAJfMX44f16mAZC3jRBQesnStQhYwMCfMC2I8uFui3cJZCpmd8Ff4L7xDoXXSG1aiYIq8unXXrD7ZCX1xbyVBX4e3t6DQwRJZCSyLl0YJxRIHzdZABu4UoX6XK7dwNB4iFrTlRPPAAaR2qZABjiPyB9V6l";
-    RestTemplate restTemplate;
+    @Value("${opcion.envio}")
+    private String opcion;
 
-    @Autowired
+    Logger logger = LoggerFactory.getLogger(UserService.class);
+
     UserRepository userRepository;
 
-    public ArrayList<UsuarioModel> getUsers() {
-        return (ArrayList<UsuarioModel>) userRepository.findAll();
-    }
-
-    public ResponseDTO obtenerUsuarios() {
-
-        restTemplate = new RestTemplate();
-
-        String url = "https://graph.facebook.com/v14.0/111465918342937/conversations?fields=participants&access_token=" + PAGE_TOKEN;
-        ResponseDTO response = restTemplate.getForObject(url, ResponseDTO.class);
-
-        return response;
-    }
-
-    public UsuarioModel saveUser(UsuarioModel user) {
-        return userRepository.save(user);
+    WhatsappService ws;
+    FacebookService fb;
+    
+    public UserService(UserRepository userRepository, WhatsappService ws, FacebookService fb) {
+        this.userRepository = userRepository;
+        this.ws = ws;
+        this.fb = fb;
     }
 
     public ArrayList<UsuarioModel> agregarUsuarios(ResponseDTO response) {
@@ -59,45 +47,68 @@ public class UserService {
             UserDTO usuario = response.getData()[i].getParticipants().getData().get(0);
             String idConversacion = response.getData()[i].getId();
             UsuarioModel usuarioModel = new UsuarioModel(usuario.getName(), usuario.getEmail(), usuario.getId(), 0, idConversacion);
+            agregarUsuario(usuarioModel);
             usuarios.add(usuarioModel);
         }
 
-        return usuarios;
+        ArrayList<UsuarioModel> usuariosDB = getUsers();
+
+        return usuariosDB;
     }
 
-    public void enviarMensaje(MessageDTO msj) {
-        String mensaje = msj.getMensaje();
-        String psid = msj.getUsuario();
-        restTemplate = new RestTemplate();
-        String url = "https://graph.facebook.com/v14.0/111465918342937/messages?recipient={id:" + psid + "}&message={text:'" + mensaje + "'}&messaging_type=RESPONSE&access_token=" + PAGE_TOKEN;
-
-        //restTemplate.postForObject(url, "", ResponseMessageDTO.class);
-        restTemplate.postForEntity(url, "", ResponseMessageDTO.class);
-
-//postForObject(url, msj, MessageDTO.class)
+    //          Métodos respecto a la base de datos
+    /*Guardar un usuario*/
+    public UsuarioModel saveUser(UsuarioModel user) {
+        return userRepository.save(user);
     }
 
-    public void enviar2(MessageDTO msj) {
-        String mensaje = msj.getMensaje();
-        String psid = msj.getUsuario();
-        String url = "https://graph.facebook.com/v14.0/111465918342937/messages?recipient={id:" + psid + "}&message={text:'" + mensaje + "'}&messaging_type=RESPONSE&access_token=" + PAGE_TOKEN;
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("id", psid);
-        params.put("text", mensaje);
-        URI uri = UriComponentsBuilder.fromUriString(url)
-                .buildAndExpand(params)
-                .toUri();
-        uri = UriComponentsBuilder
-                .fromUri(uri)
-                .queryParam("name", "myName")
-                .build()
-                .toUri();
-       restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, ResponseMessageDTO.class);
+    /*Buscar un usuario por ID*/
+    public UsuarioModel findUser(Integer id) {
+        Optional<UsuarioModel> usuario = userRepository.findById(id);
+        UsuarioModel usuarioModel = usuario.get();
+        return usuarioModel;
     }
 
-    /**
-     * public ArrayList<UsuarioModel> buscarUsuario(String name){ return
-     * userRepository.buscarUsuarioNombre(name); }
-     */
-    //String url = "https://graph.facebook.com/v14.0/111465918342937/messages?recipient={id:" + psid + "}&message={text:'" + mensaje + "'}&messaging_type=RESPONSE&access_token=" + PAGE_TOKEN;
+    /*Obtener todos los usuarios de la base de datos*/
+    public ArrayList<UsuarioModel> getUsers() {
+        return (ArrayList<UsuarioModel>) userRepository.findAll();
+    }
+
+    /*agregar un usuario a la base de datos*/
+    public Boolean exist(UsuarioModel usuario) {
+        ArrayList<UsuarioModel> usuarios = getUsers();
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (usuarios.get(i).getPsid().equals(usuario.getPsid())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void agregarUsuario(UsuarioModel usuario) {
+        if (!exist(usuario)) {
+            userRepository.save(usuario);
+        }
+    }
+
+    // enviar mensajes
+    public void enviarMensaje(RequestMessageDTO mensaje) {
+        logger.info("-*-*-*-*-*-*-ENTRANDO AL METODO PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
+        PersonalizedMessageDTO mensajeWhatsapp = new PersonalizedMessageDTO();
+        MessageDTO mensajeFacebook = new MessageDTO();
+
+        UsuarioModel usuario = findUser(mensaje.getId());
+
+        if (opcion.equals("w")) {
+            logger.info("-*-*-*-*-*-*-ENTRANDO A LA CONDICION PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
+            mensajeWhatsapp.setNumero("502" + usuario.getTelefono());
+            mensajeWhatsapp.setMensaje(mensaje.getMensaje());
+            ws.sendMessage(mensajeWhatsapp);
+        } else if (opcion.equals("f")) {
+            mensajeFacebook.setMensaje(mensaje.getMensaje());
+            mensajeFacebook.setUsuario(mensaje.getId());
+            fb.enviarMensaje(mensajeFacebook, usuario);
+        }
+
+    }
 }
