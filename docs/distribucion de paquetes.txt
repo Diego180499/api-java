@@ -1,0 +1,54 @@
+Para Facebook
+---------------------------------------------------
+-client
+  -messages
+    -facebook
+      -request
+        -in
+          -notifyMessage
+            *RequestMessengerDTO
+            *PageDTO
+            *MessageDTO
+            *UserDTO
+            *DataMessageDTO
+
+        -out
+
+
+      -response
+        -in
+          -show_users
+            *ResponseDTO
+            *DataDTO
+            *ParticipantsDTO
+            *UserDTO
+
+          -messages_user
+            *UserMessagesDTO
+            *UserMessageDTO
+            *DataMessageDTO
+        -out
+          -show_users
+            *UserResponseDTO
+-----------------------------------------------------
+
+Para WhatsApp
+----------------------------------------------------
+-whatsapp
+  -model
+    -request
+      -in
+        -notify_message
+          *todas las clases...
+      -out
+        -send_message_default
+          *MessageDefault
+        -send_message
+          *PersonalizedMessageDTO
+    -response
+      -in
+        -send_message_default
+          *ResponseSendMessageDTO
+        -send_message
+          *ResponseSendMessageDTO
+          *ContactDTO

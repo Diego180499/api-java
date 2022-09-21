@@ -1,14 +1,12 @@
 package com.diego.api.client.messages.facebook;
 
-import com.diego.api.client.messages.facebook.model.ResponseDTO;
-import com.diego.api.client.messages.facebook.model.ResponseMessageDTO;
-import com.diego.api.client.messages.facebook.model.response.UserMessagesDTO;
+import com.diego.api.client.messages.facebook.model.response.in.show_users.ResponseDTO;
+import com.diego.api.client.messages.facebook.model.response.in.messages_user.UserMessagesDTO;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -25,15 +23,14 @@ public class FacebookClient {
 
     Logger logger = LoggerFactory.getLogger(FacebookClient.class);
 
-
     private RestTemplate restTemplate;
-    
+
     private FacebookConfig facebookConfig;
 
     public FacebookClient(RestTemplate restTemplate, FacebookConfig facebookConfig) {
         logger.info("*-*-*-*-*--**-CONSTRUCTOR DE FACEBOOK CLEINT*-*-*-*-*-*-");
         this.restTemplate = restTemplate;
-        this.facebookConfig=facebookConfig;
+        this.facebookConfig = facebookConfig;
     }
 
     /*Le solicitamos a Facebook que nos devuelva los usuarios que han escrito
@@ -70,7 +67,10 @@ public class FacebookClient {
         System.out.println("uri: " + uri.toString());
 
         //restTemplate = new RestTemplate();
-        restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, ResponseMessageDTO.class);
+        // ResponseMessageDTO.class
+        Object response = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, String.class);
+        String respuesta = String.valueOf(response);
+       logger.info("****************************************Response from Facebook of send message---> : "+respuesta);
 
     }
 
@@ -88,7 +88,6 @@ public class FacebookClient {
         URI uri = UriComponentsBuilder.fromUriString(url).buildAndExpand(params).toUri();
         System.out.println("uri: " + uri.toString());
 
-        //restTemplate = new RestTemplate();
         UserMessagesDTO response = restTemplate.getForObject(uri, UserMessagesDTO.class);
         return response;
 

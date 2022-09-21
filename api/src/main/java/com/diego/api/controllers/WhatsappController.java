@@ -1,7 +1,7 @@
 package com.diego.api.controllers;
 
-import com.diego.api.client.messages.whatsapp.model.response_dto.ResponseWhatsappMessageDTO;
-import com.diego.api.dto.whatsapp_manager.message_default.RequestDTO;
+import com.diego.api.client.messages.whatsapp.model.request.out.message_default.MessageDefaultDTO;
+import com.diego.api.client.messages.whatsapp.model.request.in.notify_message.RequestWhatsappMessageDTO;
 import com.diego.api.service.WhatsappService;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -17,23 +17,16 @@ public class WhatsappController {
 
     Logger logger = LoggerFactory.getLogger(WhatsappController.class);
 
-    WhatsappService ws;
+    WhatsappService whatsappService;
 
     public WhatsappController(WhatsappService ws) {
-        this.ws = ws;
+        this.whatsappService = ws;
     }
 
     @PostMapping("/sendDefault")
-    public void mensajeInicial(@RequestBody RequestDTO body) {
-        ws.sendDefaultMessage(body);
+    public void mensajeInicial(@RequestBody MessageDefaultDTO body) {
+        whatsappService.sendDefaultMessage(body);
     }
-
-   /*
-     @PostMapping("/sendPM")
-    public void mensaje(@RequestBody PersonalizedMessageDTO body) {
-        ws.sendMessage(body);
-    }
-    */
 
     // WEBHOOK
     @GetMapping("/whats")
@@ -44,11 +37,12 @@ public class WhatsappController {
 
     @PostMapping("/whats")
     //ResponseWhatsappMessageDTO
-    public void pruebaP(@RequestBody ResponseWhatsappMessageDTO respuesta) {
+    public void notifyWhatsapp(@RequestBody RequestWhatsappMessageDTO respuesta) {
         //TODO: mandar a llamar el name del contacto de whatsapp y agregarlo a la base de datos.
+        
+
         logger.info("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- ENTRANDO A /whats mediante POST *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
-        //ResponseWhatsappMessageDTO mensaje = ws.mapRequest(respuesta);
-        logger.info("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- ENTRANDO A /whats mediante POST: \n"+respuesta);
+
     }
 
 }

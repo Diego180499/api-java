@@ -35,8 +35,13 @@ public class UserModel {
         this.nombre = nombre;
         this.telefono = telefono;
     }
-    
-    
+
+    public UserModel(Integer id, String nombre, Integer telefono, String extension) {
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.extension = extension;
+    }
 
     public UserModel(int id, String nombre, String email, String psid, String idConversacion) {
         this.id = id;
@@ -114,7 +119,5 @@ public class UserModel {
     public void setId_whatsapp(String id_whatsapp) {
         this.id_whatsapp = id_whatsapp;
     }
-    
-    
-    
+
 }

@@ -1,9 +1,10 @@
 package com.diego.api.service;
 
 import com.diego.api.configuration.ProviderConfig;
-import com.diego.api.client.messages.facebook.model.MessageDTO;
-import com.diego.api.client.messages.whatsapp.model.personalized_message.PersonalizedMessageDTO;
-import com.diego.api.dto.user.request.RequestMessageDTO;
+import com.diego.api.dto.user.request.save_user.UserDTO;
+import com.diego.api.dto.user.request.send_message.RequestMessageDTO;
+import com.diego.api.dto.user.response.show_users.UserToShowDTO;
+import com.diego.api.mapper.user.UserMap;
 import com.diego.api.repositories.models.UserModel;
 import com.diego.api.repositories.UserRepository;
 import java.util.ArrayList;
@@ -40,8 +41,9 @@ public class UserService {
 
     //          Métodos respecto a la base de datos
     /*Guardar un usuario*/
-    public void saveUser(UserModel user) {
-        userRepository.save(user);
+    public void saveUser(UserDTO user) {
+        UserModel userModel = UserMap.toUserModel(user);
+        userRepository.save(userModel);
     }
 
     /*Buscar un usuario por ID*/
@@ -52,13 +54,18 @@ public class UserService {
     }
 
     /*Obtener todos los usuarios de la base de datos*/
-    public ArrayList<UserModel> getUsers() {
-        return (ArrayList<UserModel>) userRepository.findAll();
+    public ArrayList<UserToShowDTO> getUsers() {
+        
+        ArrayList<UserModel> users = (ArrayList<UserModel>) userRepository.findAll();
+        ArrayList<UserToShowDTO> usersShow = UserMap.toUsersShow(users);
+        
+        
+        return usersShow;
     }
 
     /*agregar un usuario a la base de datos*/
     public Boolean exist(UserModel usuario) {
-        ArrayList<UserModel> usuarios = getUsers();
+        ArrayList<UserModel> usuarios = (ArrayList<UserModel>) userRepository.findAll();
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i).getPsid().equals(usuario.getPsid())) {
                 return true;

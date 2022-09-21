@@ -1,6 +1,8 @@
 package com.diego.api.controllers;
 
-import com.diego.api.dto.user.request.RequestMessageDTO;
+import com.diego.api.dto.user.request.save_user.UserDTO;
+import com.diego.api.dto.user.request.send_message.RequestMessageDTO;
+import com.diego.api.dto.user.response.show_users.UserToShowDTO;
 import com.diego.api.repositories.models.UserModel;
 import com.diego.api.service.UserService;
 import java.util.ArrayList;
@@ -34,15 +36,15 @@ public class UserController {
     /*P E T I C I ON E S 
                                                                 G E T
      */
-    @GetMapping()
-    public ArrayList<UserModel> getUsers() {
+    @GetMapping("/see")
+    public ArrayList<UserToShowDTO> getUsers() {
         logger.info("Receiving request GET to /v1/users/");
         return userService.getUsers();
     }
 
     //peticiones                                            POST
-    @PostMapping()
-    public void saveUser(@RequestBody UserModel user) {
+    @PostMapping("/save")
+    public void saveUser(@RequestBody UserDTO user) {
         logger.info("Receiving request POST to /v1/users/");
         userService.saveUser(user);
     }

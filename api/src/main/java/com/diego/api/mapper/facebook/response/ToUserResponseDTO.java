@@ -1,8 +1,7 @@
 package com.diego.api.mapper.facebook.response;
 
-import com.diego.api.client.messages.facebook.model.ResponseDTO;
-import com.diego.api.client.messages.facebook.model.UserDTO;
-import com.diego.api.client.messages.facebook.model.response.UserResponseDTO;
+import com.diego.api.client.messages.facebook.model.response.in.show_users.ResponseDTO;
+import com.diego.api.client.messages.facebook.model.response.out.show_user.UserResponseDTO;
 import java.util.ArrayList;
 
 public class ToUserResponseDTO {

@@ -1,9 +1,8 @@
 package com.diego.api.controllers;
 
-import com.diego.api.client.messages.facebook.model.UserDTO;
-import com.diego.api.client.messages.facebook.model.response.UserMessagesDTO;
-import com.diego.api.client.messages.facebook.model.request.RequestMessengerDTO;
-import com.diego.api.client.messages.facebook.model.response.UserResponseDTO;
+import com.diego.api.client.messages.facebook.model.response.in.messages_user.UserMessagesDTO;
+import com.diego.api.client.messages.facebook.model.request.in.notifyMessage.RequestMessengerDTO;
+import com.diego.api.client.messages.facebook.model.response.out.show_user.UserResponseDTO;
 import com.diego.api.repositories.models.MessageModel;
 import com.diego.api.repositories.models.UserModel;
 import com.diego.api.service.FacebookService;

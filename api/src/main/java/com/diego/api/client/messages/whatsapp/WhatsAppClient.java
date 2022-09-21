@@ -1,8 +1,9 @@
 package com.diego.api.client.messages.whatsapp;
 
-import com.diego.api.client.messages.facebook.model.ResponseDTO;
-import com.diego.api.client.messages.whatsapp.model.personalized_message.PersonalizedMessageDTO;
-import com.diego.api.dto.whatsapp_manager.message_default.RequestDTO;
+import com.diego.api.client.messages.facebook.model.response.in.show_users.ResponseDTO;
+import com.diego.api.client.messages.whatsapp.model.request.out.message_default.MessageDefaultDTO;
+import com.diego.api.client.messages.whatsapp.model.request.out.send_message.PersonalizedMessageDTO;
+import com.diego.api.client.messages.whatsapp.model.response.in.send_message.ResponseSendMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -25,7 +26,7 @@ public class WhatsAppClient {
         this.whatsAppConfig = whatsAppConfig;
     }
 
-    public ResponseEntity<ResponseDTO> sendDefaultMessage(RequestDTO request) {
+    public void sendDefaultMessage(MessageDefaultDTO request) {
         String url = whatsAppConfig.getBaseURL();
         String token = whatsAppConfig.getToken();
         logger.info("++++++++++++++++++++++El token de whatsapp es: " + token);
@@ -35,9 +36,8 @@ public class WhatsAppClient {
         headers.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
 
-        ResponseEntity<ResponseDTO> response = restTemplate.exchange(url, HttpMethod.POST, entity, ResponseDTO.class);
-
-        return response;
+        ResponseEntity<ResponseSendMessageDTO> response = restTemplate.exchange(url, HttpMethod.POST, entity, ResponseSendMessageDTO.class);
+        logger.info("Le enviaste un mensaje a : " + response.getBody().getContacts().get(0).getInput());
     }
 
     public void sendMessage(PersonalizedMessageDTO mensaje) {
@@ -48,6 +48,7 @@ public class WhatsAppClient {
         headers.add("Authorization", "Bearer " + token);
         headers.add("Content-Type", "application/json");
         HttpEntity<String> entity = new HttpEntity<String>(mensaje.toString(), headers);
-        restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<ResponseSendMessageDTO> response = restTemplate.exchange(url, HttpMethod.POST, entity, ResponseSendMessageDTO.class);
+        logger.info("Le enviaste un mensaje a : " + response.getBody().getContacts().get(0).getInput());
     }
 }

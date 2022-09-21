@@ -1,12 +1,10 @@
 package com.diego.api.service;
 
 import com.diego.api.client.messages.facebook.FacebookClient;
-import com.diego.api.client.messages.facebook.model.MessageDTO;
-import com.diego.api.client.messages.facebook.model.ResponseDTO;
-import com.diego.api.client.messages.facebook.model.UserDTO;
-import com.diego.api.client.messages.facebook.model.response.UserMessagesDTO;
-import com.diego.api.client.messages.facebook.model.request.RequestMessengerDTO;
-import com.diego.api.client.messages.facebook.model.response.UserResponseDTO;
+import com.diego.api.client.messages.facebook.model.response.in.show_users.ResponseDTO;
+import com.diego.api.client.messages.facebook.model.response.in.messages_user.UserMessagesDTO;
+import com.diego.api.client.messages.facebook.model.request.in.notifyMessage.RequestMessengerDTO;
+import com.diego.api.client.messages.facebook.model.response.out.show_user.UserResponseDTO;
 import com.diego.api.mapper.facebook.response.ToUserResponseDTO;
 import com.diego.api.repositories.models.MessageModel;
 import com.diego.api.repositories.models.UserModel;
@@ -43,16 +41,14 @@ public class FacebookService implements MessageService {
     @Override
     public void sendMessage(Object to, String message) {
         //Debe llamarse desde fuera
-        //MessageDTO mensajeFacebook = new MessageDTO();
         UserModel user = (UserModel) to;
         String psid = user.getPsid();
         facebookClient.sendMessage(psid, message);
 
     }
-    
+
     //ver mensajes de un usuario
     public UserMessagesDTO showMessages(UserModel usuario) {
-        //UsuarioModel usuario = userService.findUser(userId);
 
         String idConversacion = usuario.getIdConversacion();
 
