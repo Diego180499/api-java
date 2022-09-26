@@ -1,9 +1,8 @@
 package com.diego.api.client.messages.whatsapp;
 
-import com.diego.api.client.messages.facebook.model.response.in.show_users.ResponseDTO;
-import com.diego.api.client.messages.whatsapp.model.request.out.message_default.MessageDefaultDTO;
-import com.diego.api.client.messages.whatsapp.model.request.out.send_message.PersonalizedMessageDTO;
-import com.diego.api.client.messages.whatsapp.model.response.in.send_message.ResponseSendMessageDTO;
+import com.diego.api.client.messages.whatsapp.model.request.message_default.MessageDefaultDTO;
+import com.diego.api.client.messages.whatsapp.model.request.send_message.PersonalizedMessageDTO;
+import com.diego.api.client.messages.whatsapp.model.response.send_message.ResponseSendMessageDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;

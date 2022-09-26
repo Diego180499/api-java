@@ -2,8 +2,8 @@ package com.diego.api.controllers;
 
 import com.diego.api.dto.user.request.save_user.UserDTO;
 import com.diego.api.dto.user.request.send_message.RequestMessageDTO;
+import com.diego.api.dto.user.response.send_message.ResponseSendMessageDTO;
 import com.diego.api.dto.user.response.show_users.UserToShowDTO;
-import com.diego.api.repositories.models.UserModel;
 import com.diego.api.service.UserService;
 import java.util.ArrayList;
 import org.slf4j.Logger;
@@ -53,10 +53,11 @@ public class UserController {
     // Aquí, dependiendo de la configuración (app.properties) se enviará un mensaje al usuario,
     // ya sea por WhatsApp o por Messenger.
     @PostMapping("/messages/send")
-    public void enviarMensaje(@RequestBody RequestMessageDTO mensaje) {
+    public ResponseSendMessageDTO enviarMensaje(@RequestBody RequestMessageDTO mensaje) {
         logger.info("Receiving request POST to /v1/users/messages/send");
         logger.info("*-*-*-ENTRANDO A /enviarMensaje");
-        userService.enviarMensaje(mensaje);
+        ResponseSendMessageDTO responseSend = userService.enviarMensaje(mensaje);
+        return responseSend;
     }
 
 }

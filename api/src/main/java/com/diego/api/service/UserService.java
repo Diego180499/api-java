@@ -3,6 +3,7 @@ package com.diego.api.service;
 import com.diego.api.configuration.ProviderConfig;
 import com.diego.api.dto.user.request.save_user.UserDTO;
 import com.diego.api.dto.user.request.send_message.RequestMessageDTO;
+import com.diego.api.dto.user.response.send_message.ResponseSendMessageDTO;
 import com.diego.api.dto.user.response.show_users.UserToShowDTO;
 import com.diego.api.mapper.user.UserMap;
 import com.diego.api.repositories.models.UserModel;
@@ -55,11 +56,10 @@ public class UserService {
 
     /*Obtener todos los usuarios de la base de datos*/
     public ArrayList<UserToShowDTO> getUsers() {
-        
+
         ArrayList<UserModel> users = (ArrayList<UserModel>) userRepository.findAll();
         ArrayList<UserToShowDTO> usersShow = UserMap.toUsersShow(users);
-        
-        
+
         return usersShow;
     }
 
@@ -81,19 +81,26 @@ public class UserService {
     }
 
     // enviar mensajes
-    public void enviarMensaje(RequestMessageDTO mensaje) {
+    public ResponseSendMessageDTO enviarMensaje(RequestMessageDTO mensaje) {
         logger.info("-*-*-*-*-*-*-ENTRANDO AL METODO PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
-        Integer to = mensaje.getId();
-        String message = mensaje.getMensaje();
+        ResponseSendMessageDTO responseSend = new ResponseSendMessageDTO();
+        try {
+            Integer to = mensaje.getId();
+            String message = mensaje.getMensaje();
+            UserModel usuario = findUser(to);
+            responseSend.setMensaje("Mensaje enviado correctamente");
 
-        UserModel usuario = findUser(to);
+            if (providerConfig.getProvider().equals("w")) {
+                logger.info("-*-*-*-*-*-*-ENTRANDO A LA CONDICION PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
+                whatsAppService.sendMessage(usuario, message);
+            } else if (providerConfig.getProvider().equals("f")) {
+                facebookService.sendMessage(usuario, message);
+            }
 
-        if (providerConfig.getProvider().equals("w")) {
-            logger.info("-*-*-*-*-*-*-ENTRANDO A LA CONDICION PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
-            whatsAppService.sendMessage(usuario, message);
-        } else if (providerConfig.getProvider().equals("f")) {
-            facebookService.sendMessage(usuario, message);
+            return responseSend;
+        } catch (Exception e) {
+            responseSend.setMensaje("Id incorrecto, usuario no encontrado");
+             return responseSend;
         }
-
     }
 }

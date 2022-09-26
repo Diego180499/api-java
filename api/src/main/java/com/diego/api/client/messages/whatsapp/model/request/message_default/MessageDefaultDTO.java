@@ -1,4 +1,4 @@
-package com.diego.api.client.messages.whatsapp.model.request.out.message_default;
+package com.diego.api.client.messages.whatsapp.model.request.message_default;
 
 public class MessageDefaultDTO {
 

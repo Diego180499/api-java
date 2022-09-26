@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.diego.api.client.messages.whatsapp.model.request.in.notify_message;
+package com.diego.api.controllers.client.whatsapp.request.notify_message;
 
-import com.diego.api.client.messages.whatsapp.model.request.in.notify_message.ChangeDTO;
+import com.diego.api.controllers.client.whatsapp.request.notify_message.ChangeDTO;
 import java.util.ArrayList;
 
 /**

@@ -1,8 +1,8 @@
 
-package com.diego.api.client.messages.whatsapp.model.request.in.notify_message;
+package com.diego.api.controllers.client.whatsapp.request.notify_message;
 
-import com.diego.api.client.messages.whatsapp.model.request.in.notify_message.MessageDTO;
-import com.diego.api.client.messages.whatsapp.model.request.in.notify_message.ContactDTO;
+import com.diego.api.controllers.client.whatsapp.request.notify_message.MessageDTO;
+import com.diego.api.controllers.client.whatsapp.request.notify_message.ContactDTO;
 import java.util.ArrayList;
 
 public class ValueDTO {

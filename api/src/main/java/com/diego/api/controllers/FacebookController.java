@@ -1,9 +1,8 @@
 package com.diego.api.controllers;
 
 import com.diego.api.client.messages.facebook.model.response.in.messages_user.UserMessagesDTO;
-import com.diego.api.client.messages.facebook.model.request.in.notifyMessage.RequestMessengerDTO;
+import com.diego.api.controllers.client.facebook.request.notifyMessage.RequestMessengerDTO;
 import com.diego.api.client.messages.facebook.model.response.out.show_user.UserResponseDTO;
-import com.diego.api.repositories.models.MessageModel;
 import com.diego.api.repositories.models.UserModel;
 import com.diego.api.service.FacebookService;
 import com.diego.api.service.UserService;
@@ -61,9 +60,10 @@ public class FacebookController {
 
     @PostMapping("/users/messages/notify")
     public void webPost(@RequestBody RequestMessengerDTO field) {
-        logger.info("Receiving request POST to /users/messages/notify");
-        MessageModel mensaje = facebookService.mapMessage(field);
-        facebookService.saveMessage(mensaje);
+        logger.info("Receiving request POST to /users/messages/notify: " + field);
+
+        facebookService.verifyUser(field);
+
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.diego.api.client.messages.whatsapp.model.response.in.send_message;
+package com.diego.api.client.messages.whatsapp.model.response.send_message;
 
 /**
  *

@@ -11,7 +11,8 @@ public class UserMap {
         String nombre = user.getNombre();
         String extension = user.getExtension();
         Integer telefono = user.getTelefono();
-        UserModel userModel = new UserModel(0, nombre, telefono, extension);
+        String email = user.getNickName();
+        UserModel userModel = new UserModel(0, nombre, telefono, extension, email);
         return userModel;
     }
 

@@ -1,4 +1,4 @@
-package com.diego.api.client.messages.whatsapp.model.request.in.notify_message;
+package com.diego.api.controllers.client.whatsapp.request.notify_message;
 
 public class TextDTO {
     

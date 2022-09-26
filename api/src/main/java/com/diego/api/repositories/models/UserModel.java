@@ -12,7 +12,7 @@ public class UserModel {
     private Integer id;
 
     private String nombre;
-    private String email;
+    private String nick_name;
     private String psid;
     private String idConversacion;
     private Integer telefono;
@@ -23,9 +23,9 @@ public class UserModel {
 
     }
 
-    public UserModel(String nombre, String email, String psid, Integer id, String idConversacion) {
+    public UserModel(String nombre, String nick_name, String psid, Integer id, String idConversacion) {
         this.nombre = nombre;
-        this.email = email;
+        this.nick_name = nick_name;
         this.psid = psid;
         this.id = id;
         this.idConversacion = idConversacion;
@@ -36,17 +36,18 @@ public class UserModel {
         this.telefono = telefono;
     }
 
-    public UserModel(Integer id, String nombre, Integer telefono, String extension) {
+    public UserModel(Integer id, String nombre, Integer telefono, String extension, String nick_name) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.extension = extension;
+        this.nick_name = nick_name;
     }
 
-    public UserModel(int id, String nombre, String email, String psid, String idConversacion) {
+    public UserModel(int id, String nombre, String nick_name, String psid, String idConversacion) {
         this.id = id;
         this.nombre = nombre;
-        this.email = email;
+        this.nick_name = nick_name;
         this.psid = psid;
         this.idConversacion = idConversacion;
     }
@@ -67,12 +68,12 @@ public class UserModel {
         this.nombre = nombre;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNickName() {
+        return nick_name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNickName(String nickName) {
+        this.nick_name = nickName;
     }
 
     public String getPsid() {
@@ -97,11 +98,6 @@ public class UserModel {
 
     public void setTelefono(Integer telefono) {
         this.telefono = telefono;
-    }
-
-    @Override
-    public String toString() {
-        return "Nombre = " + nombre + ", PSID = " + psid;
     }
 
     public String getExtension() {

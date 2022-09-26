@@ -1,5 +1,5 @@
 
-package com.diego.api.client.messages.facebook.model.request.in.notifyMessage;
+package com.diego.api.controllers.client.facebook.request.notifyMessage;
 
 public class MessageDTO {
     

@@ -5,6 +5,7 @@ public class UserDTO {
     private String nombre;
     private String extension;
     private Integer telefono;
+    private String nickName;
 
     public String getNombre() {
         return nombre;
@@ -29,7 +30,13 @@ public class UserDTO {
     public void setTelefono(Integer telefono) {
         this.telefono = telefono;
     }
-    
-    
-    
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
 }

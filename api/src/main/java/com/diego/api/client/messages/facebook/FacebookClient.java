@@ -44,7 +44,6 @@ public class FacebookClient {
         URI uri = UriComponentsBuilder.fromUriString(url).buildAndExpand(queryParams).toUri();
         System.out.println("uri: " + uri.toString());
 
-        //restTemplate = new RestTemplate();
         ResponseDTO response = restTemplate.getForObject(uri, ResponseDTO.class);
         return response;
     }
@@ -70,7 +69,7 @@ public class FacebookClient {
         // ResponseMessageDTO.class
         Object response = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, String.class);
         String respuesta = String.valueOf(response);
-       logger.info("****************************************Response from Facebook of send message---> : "+respuesta);
+        logger.info("****************************************Response from Facebook of send message---> : " + respuesta);
 
     }
 

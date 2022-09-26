@@ -5,12 +5,7 @@ Para Facebook
     -facebook
       -request
         -in
-          -notifyMessage
-            *RequestMessengerDTO
-            *PageDTO
-            *MessageDTO
-            *UserDTO
-            *DataMessageDTO
+
 
         -out
 
@@ -52,3 +47,19 @@ Para WhatsApp
         -send_message
           *ResponseSendMessageDTO
           *ContactDTO
+______________________________________________________________
+______________________________________________________________
+En el paquete controllers irán los Request que cada cliente hará a mi API
+y los Response de los Request que los clientes hicieron a mi API.
+______________________________________________________________
+
+-controllers
+  -client
+    -Facebook
+    - request
+      -notifyMessage
+        *RequestMessengerDTO
+        *PageDTO
+        *MessageDTO
+        *UserDTO
+        *DataMessageDTO
