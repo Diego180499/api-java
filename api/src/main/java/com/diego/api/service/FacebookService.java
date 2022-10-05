@@ -11,6 +11,7 @@ import com.diego.api.repositories.models.UserModel;
 import com.diego.api.repositories.MessageRepository;
 import com.diego.api.repositories.UserRepository;
 import java.util.ArrayList;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,9 +53,12 @@ public class FacebookService implements MessageService {
     }
 
     //ver mensajes de un usuario
-    public UserMessagesDTO showMessages(UserModel usuario) {
-
-        String idConversacion = usuario.getIdConversacion();
+    public UserMessagesDTO showMessages(Integer userId) {
+        
+        Optional<UserModel> user = userRepository.findById(userId);
+        UserModel userModel = user.get();
+        
+        String idConversacion = userModel.getIdConversacion();
 
         UserMessagesDTO response = facebookClient.verMensajesUsuario(idConversacion);
 

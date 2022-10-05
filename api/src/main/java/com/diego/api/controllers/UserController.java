@@ -8,6 +8,7 @@ import com.diego.api.service.UserService;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +37,7 @@ public class UserController {
     /*P E T I C I ON E S 
                                                                 G E T
      */
+    @CrossOrigin(origins="http://localhost:3000/")
     @GetMapping("/see")
     public ArrayList<UserToShowDTO> getUsers() {
         logger.info("Receiving request GET to /v1/users/");
@@ -55,7 +57,7 @@ public class UserController {
     @PostMapping("/messages/send")
     public ResponseSendMessageDTO enviarMensaje(@RequestBody RequestMessageDTO mensaje) {
         logger.info("Receiving request POST to /v1/users/messages/send");
-        logger.info("*-*-*-ENTRANDO A /enviarMensaje");
+        logger.info("*-*-*-ENTRANDO A /enviarMensaje*-*-*-");
         ResponseSendMessageDTO responseSend = userService.enviarMensaje(mensaje);
         return responseSend;
     }

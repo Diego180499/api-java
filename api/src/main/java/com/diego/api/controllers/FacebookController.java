@@ -24,30 +24,15 @@ public class FacebookController {
     Logger logger = LoggerFactory.getLogger(FacebookController.class);
 
     private FacebookService facebookService;
-    private UserService userService;
 
-    public FacebookController(FacebookService facebookService, UserService userService) {
+    public FacebookController(FacebookService facebookService) {
         this.facebookService = facebookService;
-        this.userService = userService;
-    }
-
-    /**
-     * Ver los usuarios que han escrito a la página
-     *
-     * @return
-     */
-    @GetMapping("/users/see")
-    public ArrayList<UserResponseDTO> allUsersFacebook() {
-        logger.info("Receiving request to /users/see");
-        ArrayList<UserResponseDTO> response = facebookService.showUsers();
-        return response;
     }
 
     @GetMapping("/users/messages/see")
     public UserMessagesDTO seeUserMessages(@RequestParam Integer userId) {
         logger.info("Receiving request to /users/messages/see");
-        UserModel userModel = userService.findUser(userId);
-        UserMessagesDTO response = facebookService.showMessages(userModel);
+        UserMessagesDTO response = facebookService.showMessages(userId);
         return response;
     }
 
