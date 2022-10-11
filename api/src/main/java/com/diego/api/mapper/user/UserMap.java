@@ -9,10 +9,10 @@ public class UserMap {
 
     public static UserModel toUserModel(UserDTO user) {
         String nombre = user.getNombre();
-        String extension = user.getExtension();
+        Integer extension = user.getExtension();
         Integer telefono = user.getTelefono();
-        String email = user.getNickName();
-        UserModel userModel = new UserModel(0, nombre, telefono, extension, email);
+        String nickName = user.getApodo();
+        UserModel userModel = new UserModel(0, nombre, telefono, extension, nickName);
         return userModel;
     }
 
@@ -24,6 +24,7 @@ public class UserMap {
             UserToShowDTO userShowDTO = new UserToShowDTO();
             userShowDTO.setNombre(user.getNombre());
             userShowDTO.setId(user.getId());
+            userShowDTO.setNickName(user.getNickName());
             usersShow.add(userShowDTO);
         }
 

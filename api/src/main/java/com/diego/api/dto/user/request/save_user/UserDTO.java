@@ -3,9 +3,9 @@ package com.diego.api.dto.user.request.save_user;
 public class UserDTO {
 
     private String nombre;
-    private String extension;
+    private Integer extension;
     private Integer telefono;
-    private String nickName;
+    private String apodo;
 
     public String getNombre() {
         return nombre;
@@ -15,11 +15,11 @@ public class UserDTO {
         this.nombre = nombre;
     }
 
-    public String getExtension() {
+    public Integer getExtension() {
         return extension;
     }
 
-    public void setExtension(String extension) {
+    public void setExtension(Integer extension) {
         this.extension = extension;
     }
 
@@ -31,12 +31,14 @@ public class UserDTO {
         this.telefono = telefono;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getApodo() {
+        return apodo;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setApodo(String apodo) {
+        this.apodo = apodo;
     }
+
+    
 
 }

@@ -46,7 +46,7 @@ public class WhatsappService implements MessageService {
 
         if ((usuario.getId_whatsapp() == null) && usuario.getTelefono() != null) {
             logger.info("*-*-*-*-*-*-*-*-*-Usuario no tiene id de whatsapp");
-            mensajeWhatsapp.setNumero(usuario.getExtension() + usuario.getTelefono());
+            mensajeWhatsapp.setNumero(usuario.getExtension() +""+ usuario.getTelefono());
         } else {
             mensajeWhatsapp.setNumero(usuario.getId_whatsapp());
         }

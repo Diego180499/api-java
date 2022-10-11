@@ -12,11 +12,11 @@ public class UserModel {
     private Integer id;
 
     private String nombre;
-    private String nick_name;
+    private String nickname;
     private String psid;
     private String idConversacion;
     private Integer telefono;
-    private String extension;
+    private Integer extension;
     private String id_whatsapp;
 
     public UserModel() {
@@ -25,7 +25,7 @@ public class UserModel {
 
     public UserModel(String nombre, String nick_name, String psid, Integer id, String idConversacion) {
         this.nombre = nombre;
-        this.nick_name = nick_name;
+        this.nickname = nick_name;
         this.psid = psid;
         this.id = id;
         this.idConversacion = idConversacion;
@@ -36,18 +36,18 @@ public class UserModel {
         this.telefono = telefono;
     }
 
-    public UserModel(Integer id, String nombre, Integer telefono, String extension, String nick_name) {
+    public UserModel(Integer id, String nombre, Integer telefono, Integer extension, String nickname) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.extension = extension;
-        this.nick_name = nick_name;
+        this.nickname = nickname;
     }
 
     public UserModel(int id, String nombre, String nick_name, String psid, String idConversacion) {
         this.id = id;
         this.nombre = nombre;
-        this.nick_name = nick_name;
+        this.nickname = nick_name;
         this.psid = psid;
         this.idConversacion = idConversacion;
     }
@@ -69,11 +69,11 @@ public class UserModel {
     }
 
     public String getNickName() {
-        return nick_name;
+        return nickname;
     }
 
     public void setNickName(String nickName) {
-        this.nick_name = nickName;
+        this.nickname = nickName;
     }
 
     public String getPsid() {
@@ -100,11 +100,11 @@ public class UserModel {
         this.telefono = telefono;
     }
 
-    public String getExtension() {
+    public Integer getExtension() {
         return extension;
     }
 
-    public void setExtension(String extension) {
+    public void setExtension(Integer extension) {
         this.extension = extension;
     }
 

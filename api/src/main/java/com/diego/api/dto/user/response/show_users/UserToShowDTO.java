@@ -4,6 +4,9 @@ public class UserToShowDTO {
     
     private String nombre;
     private Integer id;
+    private String nickName;
+    
+    
 
     public String getNombre() {
         return nombre;
@@ -19,6 +22,14 @@ public class UserToShowDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
     
     

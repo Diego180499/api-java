@@ -37,15 +37,17 @@ public class UserController {
     /*P E T I C I ON E S 
                                                                 G E T
      */
-    @CrossOrigin(origins="http://localhost:3000/")
+    @CrossOrigin(origins = "http://localhost:3000/")
     @GetMapping("/see")
     public ArrayList<UserToShowDTO> getUsers() {
         logger.info("Receiving request GET to /v1/users/");
         return userService.getUsers();
     }
 
-    //peticiones                                            POST
+    //peticiones                    POST
+    @CrossOrigin(origins = "http://localhost:3000/")
     @PostMapping("/save")
+    //UserDTO
     public void saveUser(@RequestBody UserDTO user) {
         logger.info("Receiving request POST to /v1/users/");
         userService.saveUser(user);
@@ -54,6 +56,7 @@ public class UserController {
     // Peticion para enviar un mensaje
     // Aquí, dependiendo de la configuración (app.properties) se enviará un mensaje al usuario,
     // ya sea por WhatsApp o por Messenger.
+    @CrossOrigin(origins = "http://localhost:3000/")
     @PostMapping("/messages/send")
     public ResponseSendMessageDTO enviarMensaje(@RequestBody RequestMessageDTO mensaje) {
         logger.info("Receiving request POST to /v1/users/messages/send");
