@@ -1,19 +1,22 @@
 package com.diego.api.service;
 
-import com.diego.api.client.messages.whatsapp.WhatsAppClient;
-import com.diego.api.client.messages.whatsapp.model.request.message_default.MessageDefaultDTO;
-import com.diego.api.client.messages.whatsapp.model.request.send_message.PersonalizedMessageDTO;
-import com.diego.api.controllers.client.whatsapp.request.notify_message.RequestWhatsappMessageDTO;
+import com.diego.api.client.whatsapp.WhatsAppClient;
+import com.diego.api.client.whatsapp.dto.request.MessageDefaultDTO;
+import com.diego.api.client.whatsapp.dto.request.PersonalizedMessageDTO;
+import com.diego.api.controllers.whatsApp.dto.request.RequestWhatsappMessageDTO;
+import com.diego.api.exception.ApiJavaException;
+import com.diego.api.exception.InvalidWhatsAppRequestException;
 import com.diego.api.repositories.UserRepository;
 import com.diego.api.repositories.models.UserModel;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(value = "provider.option",havingValue = "2")
 public class WhatsappService implements MessageService {
 
     Logger logger = LoggerFactory.getLogger(WhatsappService.class);
@@ -40,7 +43,7 @@ public class WhatsappService implements MessageService {
     }
 
     @Override
-    public Integer sendMessage(Object to, String message) {
+    public void sendMessage(Object to, String message) {
         // el to será el Objecto Usuario a quien le enviaré el mensaje
         UserModel usuario = (UserModel) to;
         PersonalizedMessageDTO mensajeWhatsapp = new PersonalizedMessageDTO();
@@ -53,10 +56,16 @@ public class WhatsappService implements MessageService {
         }
 
         mensajeWhatsapp.setMensaje(message);
-       return whatsappClient.sendMessage(mensajeWhatsapp);
+       
+        try {
+            whatsappClient.sendMessage(mensajeWhatsapp);
+        } catch (InvalidWhatsAppRequestException ex) {
+            throw new ApiJavaException("El numero es invalido");
+        }
+       
     }
 
-    public void verifyUser(RequestWhatsappMessageDTO respuesta) {
+    public void verifyUser(RequestWhatsappMessageDTO respuesta) throws InvalidWhatsAppRequestException {
         try {
             logger.info("*-*-*-*-*-*-*-*-*-Entrando a verifyUser");
             String phone = respuesta.getEntry().get(0).getChanges().get(0).getValue().getMessages().get(0).getFrom();
@@ -78,7 +87,7 @@ public class WhatsappService implements MessageService {
 
             whatsappClient.sendMessage(mensajeWhatsapp);
         } catch (NullPointerException e) {
-            logger.info("*-*-*-*-*-NULL POINTER en verifyUser-WhatsAppService*-*-*-*-*-*-");
+            throw new ApiJavaException("El numero es invalido");
         }
 
     }

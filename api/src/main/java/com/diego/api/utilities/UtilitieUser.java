@@ -5,7 +5,7 @@
  */
 package com.diego.api.utilities;
 
-import com.diego.api.dto.user.response.send_message.ResponseSendMessageDTO;
+import com.diego.api.controllers.user.dto.response.ErrorMessageDTO;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -14,8 +14,8 @@ import org.springframework.http.HttpStatus;
  */
 public class UtilitieUser {
 
-    public static ResponseSendMessageDTO verifyCodeSaveUser(int codigo) {
-        ResponseSendMessageDTO responseSend = new ResponseSendMessageDTO();
+    public static ErrorMessageDTO verifyCodeSaveUser(int codigo) {
+        ErrorMessageDTO responseSend = new ErrorMessageDTO();
 
         switch (codigo) {
             case 200:
@@ -34,9 +34,9 @@ public class UtilitieUser {
 
     }
 
-    public static ResponseSendMessageDTO verifyCodeSendMessage(int code) {
+    public static ErrorMessageDTO verifyCodeSendMessage(int code) {
 
-        ResponseSendMessageDTO responseSend = new ResponseSendMessageDTO();
+        ErrorMessageDTO responseSend = new ErrorMessageDTO();
 
         switch (code) {
             case 200:

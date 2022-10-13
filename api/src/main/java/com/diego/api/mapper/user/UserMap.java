@@ -1,7 +1,7 @@
 package com.diego.api.mapper.user;
 
-import com.diego.api.dto.user.request.save_user.UserDTO;
-import com.diego.api.dto.user.response.show_users.UserToShowDTO;
+import com.diego.api.controllers.user.dto.request.UserDTO;
+import com.diego.api.controllers.user.dto.response.UserToShowDTO;
 import com.diego.api.repositories.models.UserModel;
 import java.util.ArrayList;
 

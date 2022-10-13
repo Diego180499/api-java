@@ -1,10 +1,9 @@
 package com.diego.api.service;
 
 import com.diego.api.configuration.ProviderConfig;
-import com.diego.api.dto.user.request.save_user.UserDTO;
-import com.diego.api.dto.user.request.send_message.RequestMessageDTO;
-import com.diego.api.dto.user.response.send_message.ResponseSendMessageDTO;
-import com.diego.api.dto.user.response.show_users.UserToShowDTO;
+import com.diego.api.controllers.user.dto.request.UserDTO;
+import com.diego.api.controllers.user.dto.request.RequestMessageDTO;
+import com.diego.api.controllers.user.dto.response.UserToShowDTO;
 import com.diego.api.mapper.user.UserMap;
 import com.diego.api.repositories.models.UserModel;
 import com.diego.api.repositories.UserRepository;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,20 +23,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    private ProviderConfig providerConfig;
-
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
     UserRepository userRepository;
+    
+    MessageService messageService;
 
-    WhatsappService whatsAppService;
-    FacebookService facebookService;
 
-    public UserService(UserRepository userRepository, WhatsappService ws, FacebookService fb, ProviderConfig provider) {
+    public UserService(UserRepository userRepository, MessageService messageService) {
         this.userRepository = userRepository;
-        this.whatsAppService = ws;
-        this.facebookService = fb;
-        this.providerConfig = provider;
     }
 
     //          Métodos respecto a la base de datos
@@ -87,21 +80,13 @@ public class UserService {
     }
 
     // enviar mensajes
-    public Integer enviarMensaje(RequestMessageDTO mensaje) {
+    public void sendMessage(RequestMessageDTO mensaje) {
         logger.info("-*-*-*-*-*-*-ENTRANDO AL METODO PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
         //ResponseSendMessageDTO responseSend = new ResponseSendMessageDTO();
         Integer to = mensaje.getId();
         String message = mensaje.getMensaje();
         UserModel usuario = findUser(to);
         //responseSend.setMensaje("Mensaje enviado correctamente");
-
-        if (providerConfig.getProvider().equals("w")) {
-            logger.info("-*-*-*-*-*-*-ENTRANDO A LA CONDICION PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
-            return whatsAppService.sendMessage(usuario, message);
-        } else if (providerConfig.getProvider().equals("f")) {
-            return facebookService.sendMessage(usuario, message);
-        }
-
-        return 0;
+        messageService.sendMessage(usuario, message);
     }
 }

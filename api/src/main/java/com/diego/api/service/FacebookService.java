@@ -1,10 +1,10 @@
 package com.diego.api.service;
 
-import com.diego.api.client.messages.facebook.FacebookClient;
-import com.diego.api.client.messages.facebook.model.response.in.show_users.ResponseDTO;
-import com.diego.api.client.messages.facebook.model.response.in.messages_user.UserMessagesDTO;
-import com.diego.api.controllers.client.facebook.request.notifyMessage.RequestMessengerDTO;
-import com.diego.api.client.messages.facebook.model.response.out.show_user.UserResponseDTO;
+import com.diego.api.client.facebook.FacebookClient;
+import com.diego.api.client.facebook.dto.response.ResponseDTO;
+import com.diego.api.client.facebook.dto.response.UserMessagesDTO;
+import com.diego.api.controllers.facebook.dto.request.RequestMessengerDTO;
+import com.diego.api.model.User;
 import com.diego.api.mapper.facebook.response.ToUserResponseDTO;
 import com.diego.api.repositories.models.MessageModel;
 import com.diego.api.repositories.models.UserModel;
@@ -14,9 +14,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(value = "provider.option",havingValue = "f")
 public class FacebookService implements MessageService {
 
     Logger logger = LoggerFactory.getLogger(FacebookService.class);
@@ -34,21 +36,21 @@ public class FacebookService implements MessageService {
     }
 
     // Mostrar los usuarios que han escrito a la página de facebook
-    public ArrayList<UserResponseDTO> showUsers() {
+    public ArrayList<User> showUsers() {
 
         ResponseDTO response = facebookClient.getUsers(); //obtenemos los usuarios que facebook nos da
-        ArrayList<UserResponseDTO> users = ToUserResponseDTO.toUsersDTO(response);
+        ArrayList<User> users = ToUserResponseDTO.toUsersDTO(response);
         updateUsers(users);
 
         return users;
     }
 
     @Override
-    public Integer sendMessage(Object to, String message) {
+    public void sendMessage(Object to, String message) {
         //Debe llamarse desde fuera
         UserModel user = (UserModel) to;
         String psid = user.getPsid();
-        return facebookClient.sendMessage(psid, message);
+        facebookClient.sendMessage(psid, message);
     }
 
     //ver mensajes de un usuario
@@ -112,11 +114,11 @@ public class FacebookService implements MessageService {
         userRepository.save(userModel);
     }
 
-    public void updateUsers(ArrayList<UserResponseDTO> users) {
+    public void updateUsers(ArrayList<User> users) {
 
         ArrayList<UserModel> usersModel = (ArrayList<UserModel>) userRepository.findAll();
 
-        for (UserResponseDTO user : users) {
+        for (User user : users) {
             for (UserModel userModel : usersModel) {
                 if (user.getPsid().equals(userModel.getPsid())) {
                     userModel.setIdConversacion(user.getIdConversacion());
