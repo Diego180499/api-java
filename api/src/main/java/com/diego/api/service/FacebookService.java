@@ -44,20 +44,19 @@ public class FacebookService implements MessageService {
     }
 
     @Override
-    public void sendMessage(Object to, String message) {
+    public Integer sendMessage(Object to, String message) {
         //Debe llamarse desde fuera
         UserModel user = (UserModel) to;
         String psid = user.getPsid();
-        facebookClient.sendMessage(psid, message);
-
+        return facebookClient.sendMessage(psid, message);
     }
 
     //ver mensajes de un usuario
     public UserMessagesDTO showMessages(Integer userId) {
-        
+
         Optional<UserModel> user = userRepository.findById(userId);
         UserModel userModel = user.get();
-        
+
         String idConversacion = userModel.getIdConversacion();
 
         UserMessagesDTO response = facebookClient.verMensajesUsuario(idConversacion);

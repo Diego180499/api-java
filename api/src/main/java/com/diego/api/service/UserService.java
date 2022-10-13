@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,9 +43,14 @@ public class UserService {
 
     //          Métodos respecto a la base de datos
     /*Guardar un usuario*/
-    public void saveUser(UserDTO user) {
+    public Integer saveUser(UserDTO user) {
         UserModel userModel = UserMap.toUserModel(user);
+
+        if (userModel.getNickName() == null || userModel.getExtension() == null || userModel.getTelefono() == null) {
+            return 400;
+        }
         userRepository.save(userModel);
+        return 200;
     }
 
     /*Buscar un usuario por ID*/
@@ -81,26 +87,21 @@ public class UserService {
     }
 
     // enviar mensajes
-    public ResponseSendMessageDTO enviarMensaje(RequestMessageDTO mensaje) {
+    public Integer enviarMensaje(RequestMessageDTO mensaje) {
         logger.info("-*-*-*-*-*-*-ENTRANDO AL METODO PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
-        ResponseSendMessageDTO responseSend = new ResponseSendMessageDTO();
-        try {
-            Integer to = mensaje.getId();
-            String message = mensaje.getMensaje();
-            UserModel usuario = findUser(to);
-            responseSend.setMensaje("Mensaje enviado correctamente");
+        //ResponseSendMessageDTO responseSend = new ResponseSendMessageDTO();
+        Integer to = mensaje.getId();
+        String message = mensaje.getMensaje();
+        UserModel usuario = findUser(to);
+        //responseSend.setMensaje("Mensaje enviado correctamente");
 
-            if (providerConfig.getProvider().equals("w")) {
-                logger.info("-*-*-*-*-*-*-ENTRANDO A LA CONDICION PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
-                whatsAppService.sendMessage(usuario, message);
-            } else if (providerConfig.getProvider().equals("f")) {
-                facebookService.sendMessage(usuario, message);
-            }
-
-            return responseSend;
-        } catch (Exception e) {
-            responseSend.setMensaje("Id incorrecto, usuario no encontrado");
-             return responseSend;
+        if (providerConfig.getProvider().equals("w")) {
+            logger.info("-*-*-*-*-*-*-ENTRANDO A LA CONDICION PARA ENVIAR MENSAJE DE USER SERVICE*-*-*-*-*-*-");
+            return whatsAppService.sendMessage(usuario, message);
+        } else if (providerConfig.getProvider().equals("f")) {
+            return facebookService.sendMessage(usuario, message);
         }
+
+        return 0;
     }
 }

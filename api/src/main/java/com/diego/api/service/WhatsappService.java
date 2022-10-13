@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,21 +40,20 @@ public class WhatsappService implements MessageService {
     }
 
     @Override
-    public void sendMessage(Object to, String message) {
+    public Integer sendMessage(Object to, String message) {
         // el to será el Objecto Usuario a quien le enviaré el mensaje
         UserModel usuario = (UserModel) to;
         PersonalizedMessageDTO mensajeWhatsapp = new PersonalizedMessageDTO();
 
         if ((usuario.getId_whatsapp() == null) && usuario.getTelefono() != null) {
             logger.info("*-*-*-*-*-*-*-*-*-Usuario no tiene id de whatsapp");
-            mensajeWhatsapp.setNumero(usuario.getExtension() +""+ usuario.getTelefono());
+            mensajeWhatsapp.setNumero(usuario.getExtension() + "" + usuario.getTelefono());
         } else {
             mensajeWhatsapp.setNumero(usuario.getId_whatsapp());
         }
 
         mensajeWhatsapp.setMensaje(message);
-        whatsappClient.sendMessage(mensajeWhatsapp);
-
+       return whatsappClient.sendMessage(mensajeWhatsapp);
     }
 
     public void verifyUser(RequestWhatsappMessageDTO respuesta) {
@@ -72,7 +72,7 @@ public class WhatsappService implements MessageService {
             } else {
                 logger.info("*-*-*-*-*-*-*-*-*-Usuario encontrado");
                 mensajeWhatsapp.setNumero(phone);
-                mensajeWhatsapp.setMensaje("Hola " + user.getNombre()+ ", es un gusto saludarte");
+                mensajeWhatsapp.setMensaje("Hola " + user.getNombre() + ", es un gusto saludarte");
                 updateUser(phone, user);
             }
 

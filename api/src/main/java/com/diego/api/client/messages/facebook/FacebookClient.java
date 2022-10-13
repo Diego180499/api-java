@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -48,7 +49,7 @@ public class FacebookClient {
         return response;
     }
 
-    public void sendMessage(String psid, String mensaje) {
+    public Integer sendMessage(String psid, String mensaje) {
 
         String url = facebookConfig.getUrlSend();
         String psidValue = "{id:" + psid + "}";
@@ -67,10 +68,10 @@ public class FacebookClient {
 
         //restTemplate = new RestTemplate();
         // ResponseMessageDTO.class
-        Object response = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, String.class);
         String respuesta = String.valueOf(response);
         logger.info("****************************************Response from Facebook of send message---> : " + respuesta);
-
+        return response.getStatusCode().value();
     }
 
     public UserMessagesDTO verMensajesUsuario(String idConversacion) {

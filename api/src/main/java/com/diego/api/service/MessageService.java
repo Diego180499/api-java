@@ -9,7 +9,7 @@ package com.diego.api.service;
  * @author german.estacuy
  */
 public interface MessageService {
-    void sendMessage(Object to, String message);
+    Object sendMessage(Object to, String message);
     
 //    List<MessageDTO> listMessages(Object user) 
     
