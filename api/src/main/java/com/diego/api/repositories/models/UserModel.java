@@ -7,15 +7,12 @@ import javax.persistence.*;
 public class UserModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Integer id;
+    private Integer telefono;//@Column(unique = true, nullable = false)
 
     private String nombre;
     private String nickname;
     private String psid;
     private String idConversacion;
-    private Integer telefono;
     private Integer extension;
     private String id_whatsapp;
 
@@ -23,41 +20,23 @@ public class UserModel {
 
     }
 
-    public UserModel(String nombre, String nick_name, String psid, Integer id, String idConversacion) {
-        this.nombre = nombre;
-        this.nickname = nick_name;
-        this.psid = psid;
-        this.id = id;
-        this.idConversacion = idConversacion;
-    }
-
-    public UserModel(String nombre, Integer telefono) {
-        this.nombre = nombre;
-        this.telefono = telefono;
-    }
-
-    public UserModel(Integer id, String nombre, Integer telefono, Integer extension, String nickname) {
-        this.id = id;
+    public UserModel(String nombre, Integer telefono, Integer extension, String nickname) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.extension = extension;
         this.nickname = nickname;
     }
 
-    public UserModel(int id, String nombre, String nick_name, String psid, String idConversacion) {
-        this.id = id;
+    public UserModel(String nombre, String nick_name, String psid, String idConversacion) {
         this.nombre = nombre;
         this.nickname = nick_name;
         this.psid = psid;
         this.idConversacion = idConversacion;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public UserModel(String nombre, Integer telefono) {
+        this.nombre = nombre;
+        this.telefono = telefono;
     }
 
     public String getNombre() {

@@ -4,9 +4,10 @@ import com.diego.api.client.facebook.FacebookClient;
 import com.diego.api.client.facebook.dto.response.ResponseDTO;
 import com.diego.api.client.facebook.dto.response.UserMessagesDTO;
 import com.diego.api.controllers.facebook.dto.request.RequestMessengerDTO;
+import com.diego.api.exception.IdConversationException;
+import com.diego.api.exception.PsidInvalidException;
 import com.diego.api.model.User;
 import com.diego.api.mapper.facebook.response.ToUserResponseDTO;
-import com.diego.api.repositories.models.MessageModel;
 import com.diego.api.repositories.models.UserModel;
 import com.diego.api.repositories.MessageRepository;
 import com.diego.api.repositories.UserRepository;
@@ -18,7 +19,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(value = "provider.option",havingValue = "f")
+@ConditionalOnProperty(value = "provider.option", havingValue = "f")
 public class FacebookService implements MessageService {
 
     Logger logger = LoggerFactory.getLogger(FacebookService.class);
@@ -45,38 +46,38 @@ public class FacebookService implements MessageService {
         return users;
     }
 
+    //enviar un mensaje
     @Override
     public void sendMessage(Object to, String message) {
         //Debe llamarse desde fuera
         UserModel user = (UserModel) to;
         String psid = user.getPsid();
-        facebookClient.sendMessage(psid, message);
+
+        if (psid == null) {
+            throw new PsidInvalidException();
+        } else {
+            facebookClient.sendMessage(psid, message);
+        }
     }
 
-    //ver mensajes de un usuario
-    public UserMessagesDTO showMessages(Integer userId) {
+    //ver conversacion de Messenger de un usuario
+    public UserMessagesDTO showMessages(Integer phone) {
 
-        Optional<UserModel> user = userRepository.findById(userId);
+        Optional<UserModel> user = userRepository.findById(phone);
         UserModel userModel = user.get();
 
         String idConversacion = userModel.getIdConversacion();
 
-        UserMessagesDTO response = facebookClient.verMensajesUsuario(idConversacion);
+        if (idConversacion == null) {
+            throw new IdConversationException();
+        }
+
+        UserMessagesDTO response = facebookClient.seeUsersMessages(idConversacion);
 
         return response;
     }
 
-    public MessageModel mapMessage(RequestMessengerDTO message) {
-        logger.info("*-*-*-*-*-*-*-Mapeando el mensaje recibido*-*-*-*-*-*-*-");
-        Integer id = 0;
-        String psid = message.getEntry().get(0).getMessaging().get(0).getSender().getId();
-        String mensaje = message.getEntry().get(0).getMessaging().get(0).getMessage().getText();
-
-        MessageModel messageModel = new MessageModel(id, psid, mensaje);
-
-        return messageModel;
-    }
-
+    //verificamos el mensaje de un usuario cuando nos escribre (Webhook)
     public void verifyUser(RequestMessengerDTO mensaje) {
 
         String nickName = mensaje.getEntry().get(0).getMessaging().get(0).getMessage().getText();
@@ -96,6 +97,7 @@ public class FacebookService implements MessageService {
 
     }
 
+    //buscamos a un usuario en la base de datos por medio de su nickname
     public UserModel findUserWithNickName(String nickName) {
 
         ArrayList<UserModel> users = (ArrayList<UserModel>) userRepository.findAll();
@@ -114,6 +116,7 @@ public class FacebookService implements MessageService {
         userRepository.save(userModel);
     }
 
+    //Actualizamos los id's de conversacion de usuarios REGISTRADOS en la base de datos
     public void updateUsers(ArrayList<User> users) {
 
         ArrayList<UserModel> usersModel = (ArrayList<UserModel>) userRepository.findAll();
@@ -127,9 +130,4 @@ public class FacebookService implements MessageService {
             }
         }
     }
-
-    public void saveMessage(MessageModel mensaje) {
-        messageRepository.save(mensaje);
-    }
-
 }

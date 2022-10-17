@@ -1,0 +1,11 @@
+- Para poder enviarle a un usuario un mensaje hacia su facebook debe pasar que:
+    1. El usuario debe registrarse en la pagina oficial
+
+    2. El usuario debe escribir un mensaje a la pagina de Facebook, para poder
+    capturar su PSID. El mensaje debe ser su nickname
+
+    3. Los mensajes se envían con el PSID de Facebook.
+
+- Para ver los mensajes de Facebook de un usuario se necesita el id_conversacion
+  de Facebook del usuario para poder ver los mensajes que
+  ese usuario nos ha enviado.

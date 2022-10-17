@@ -1,10 +1,9 @@
 package com.diego.api.controllers.user.dto.request;
 
-
 public class RequestMessageDTO {
-    
+
     private String mensaje;
-    private Integer id;
+    private Integer telefono;
 
     public String getMensaje() {
         return mensaje;
@@ -14,14 +13,12 @@ public class RequestMessageDTO {
         this.mensaje = mensaje;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getTelefono() {
+        return telefono;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTelefono(Integer telefono) {
+        this.telefono = telefono;
     }
-    
-    
-    
+
 }

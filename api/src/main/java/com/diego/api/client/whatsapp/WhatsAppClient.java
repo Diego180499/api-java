@@ -28,7 +28,8 @@ public class WhatsAppClient {
         this.restTemplate = restTemplate;
         this.whatsAppConfig = whatsAppConfig;
     }
-
+    
+    //solicitamos enviarle un mensaje por default a un usuario
     public void sendDefaultMessage(MessageDefaultDTO request) {
         String url = whatsAppConfig.getBaseURL();
         String token = whatsAppConfig.getToken();
@@ -42,7 +43,9 @@ public class WhatsAppClient {
         ResponseEntity<ResponseSendMessageDTO> response = restTemplate.exchange(url, HttpMethod.POST, entity, ResponseSendMessageDTO.class);
         logger.info("Le enviaste un mensaje a : " + response.getBody().getContacts().get(0).getInput());
     }
-
+    
+    
+    //solicitamos enviarle un mensaje a un usuario
     public ResponseSendMessageDTO sendMessage(PersonalizedMessageDTO mensaje) throws InvalidWhatsAppRequestException {
        
         String url = whatsAppConfig.getBaseURL();
@@ -56,10 +59,12 @@ public class WhatsAppClient {
            logger.info("message sent to: {}", response.getBody().getContacts().get(0).getInput());
            return response.getBody();
         } catch (HttpClientErrorException e) {
+            logger.error("*-->Fallo Whatsapp-->",e);
+            
             if(e.getStatusCode()==HttpStatus.BAD_REQUEST){
                 throw new InvalidWhatsAppRequestException();
             }
-            throw new WhatsAppException();
+            throw new WhatsAppException("Error en conexion con WhatsApp");
         }
         
     }

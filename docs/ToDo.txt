@@ -1,3 +1,0 @@
-User -> un admin de mi app
-Client -> clientes de la página.
-hacer un front con React

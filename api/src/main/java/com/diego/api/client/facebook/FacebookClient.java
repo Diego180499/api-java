@@ -48,8 +48,9 @@ public class FacebookClient {
         ResponseDTO response = restTemplate.getForObject(uri, ResponseDTO.class);
         return response;
     }
-
-    public Integer sendMessage(String psid, String mensaje) {
+    
+    //envíamos solicitud a Facebook para enviar un mensaje a un usuario
+    public void sendMessage(String psid, String mensaje) {
 
         String url = facebookConfig.getUrlSend();
         String psidValue = "{id:" + psid + "}";
@@ -66,15 +67,13 @@ public class FacebookClient {
         URI uri = UriComponentsBuilder.fromUriString(url).buildAndExpand(params).toUri();
         System.out.println("uri: " + uri.toString());
 
-        //restTemplate = new RestTemplate();
-        // ResponseMessageDTO.class
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, String.class);
         String respuesta = String.valueOf(response);
         logger.info("****************************************Response from Facebook of send message---> : " + respuesta);
-        return response.getStatusCode().value();
     }
-
-    public UserMessagesDTO verMensajesUsuario(String idConversacion) {
+    
+    //solicitamos a Facebook ver conversacion de Messenger de un usuario
+    public UserMessagesDTO seeUsersMessages(String idConversacion) {
 
         String fieldValue = "messages{message}";
 

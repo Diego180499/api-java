@@ -6,35 +6,32 @@ import com.diego.api.client.whatsapp.dto.request.PersonalizedMessageDTO;
 import com.diego.api.controllers.whatsApp.dto.request.RequestWhatsappMessageDTO;
 import com.diego.api.exception.ApiJavaException;
 import com.diego.api.exception.InvalidWhatsAppRequestException;
+import com.diego.api.exception.WhatsAppException;
 import com.diego.api.repositories.UserRepository;
 import com.diego.api.repositories.models.UserModel;
 import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(value = "provider.option",havingValue = "2")
+@ConditionalOnProperty(value = "provider.option", havingValue = "w")
 public class WhatsappService implements MessageService {
 
     Logger logger = LoggerFactory.getLogger(WhatsappService.class);
-
-    @Value("${token.page}")
-    private String token;
 
     WhatsAppClient whatsappClient;
     UserRepository userRepository;
 
     public WhatsappService(WhatsAppClient whatsappClient, UserRepository userRepository) {
-        logger.info("El token page es: " + token);
+
         this.whatsappClient = whatsappClient;
         this.userRepository = userRepository;
     }
 
     public void sendDefaultMessage(MessageDefaultDTO request) {
-        logger.info("El token page es: " + token);
+
         whatsappClient.sendDefaultMessage(request);
     }
 
@@ -56,13 +53,16 @@ public class WhatsappService implements MessageService {
         }
 
         mensajeWhatsapp.setMensaje(message);
-       
+
         try {
             whatsappClient.sendMessage(mensajeWhatsapp);
         } catch (InvalidWhatsAppRequestException ex) {
-            throw new ApiJavaException("El numero es invalido");
+            throw new ApiJavaException("El numero de celular no es valido");
+        } catch (WhatsAppException we) {
+            throw new ApiJavaException(we.getMessage()
+            );
         }
-       
+
     }
 
     public void verifyUser(RequestWhatsappMessageDTO respuesta) throws InvalidWhatsAppRequestException {

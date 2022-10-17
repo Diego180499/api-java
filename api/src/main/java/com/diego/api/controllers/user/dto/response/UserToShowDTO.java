@@ -3,7 +3,7 @@ package com.diego.api.controllers.user.dto.response;
 public class UserToShowDTO {
     
     private String nombre;
-    private Integer id;
+    private Integer telefono;
     private String nickName;
     
     
@@ -16,13 +16,7 @@ public class UserToShowDTO {
         this.nombre = nombre;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+   
 
     public String getNickName() {
         return nickName;
@@ -30,6 +24,14 @@ public class UserToShowDTO {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public Integer getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(Integer telefono) {
+        this.telefono = telefono;
     }
     
     

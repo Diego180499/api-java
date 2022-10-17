@@ -12,10 +12,13 @@ public class UserMap {
         Integer extension = user.getExtension();
         Integer telefono = user.getTelefono();
         String nickName = user.getApodo();
-        UserModel userModel = new UserModel(0, nombre, telefono, extension, nickName);
+        UserModel userModel = new UserModel(nombre, telefono, extension, nickName);
         return userModel;
     }
 
+    /* Este método mapea todos los usersModel de la base de datos para enviarlos
+    al front. 
+     */
     public static ArrayList<UserToShowDTO> toUsersShow(ArrayList<UserModel> users) {
 
         ArrayList<UserToShowDTO> usersShow = new ArrayList<>();
@@ -23,8 +26,9 @@ public class UserMap {
         for (UserModel user : users) {
             UserToShowDTO userShowDTO = new UserToShowDTO();
             userShowDTO.setNombre(user.getNombre());
-            userShowDTO.setId(user.getId());
             userShowDTO.setNickName(user.getNickName());
+            userShowDTO.setTelefono(user.getTelefono());
+
             usersShow.add(userShowDTO);
         }
 

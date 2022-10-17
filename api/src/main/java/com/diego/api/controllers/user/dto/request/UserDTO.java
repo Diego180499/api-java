@@ -5,7 +5,7 @@ public class UserDTO {
     private String nombre;
     private Integer extension;
     private Integer telefono;
-    private String apodo;
+    private String apodo; //es el nickname
 
     public String getNombre() {
         return nombre;
